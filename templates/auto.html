@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tank It</title>
+        <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='favicon.ico') }}">
+        <link rel="stylesheet" href="{{url_for('static', filename='style.css') }}">
+    </head>
+    <body style="background-color: #6FADC9;">
+            <div class="skies" style="z-index: -2;     position: absolute;
+    top: 0;
+    left: 0;">
+            <div class="cloud layer1 flip"></div>
+            <div class="cloud layer2 flip"></div>
+            <div class="cloud layer3 flip"></div>
+            <div class="cloud layer4 flip"></div>
+        </div>
+        <div style="position: fixed; bottom: 0; left: 0;">
+		<div class="skies" style="position: fixed; bottom: 0; left: 0; width: 100%; z-index: -2;">
+			<div class="cloud layer1"></div>
+			<div class="cloud layer2"></div>
+			<div class="cloud layer3"></div>
+			<div class="cloud layer4"></div>
+		</div></div>
+        <div class="tank_art" style="z-index:1" onclick="startAuto()" ontouchstart="stopAuto()"></div>
+<button 
+    style="
+        position: fixed; 
+        bottom: 50%; 
+        left: 20px; 
+        width: 100px; 
+        height: 100px; 
+        clip-path: path('M100,0 Q70,50 100,100 L0,50 Z');
+        border: none;
+        background-color: #5F4C8E;
+        cursor: pointer;
+    " 
+    onmousedown="stopAuto(); window.location.href='/index'; " 
+    ontouchstart="stopAuto(); window.location.href='/index'; ">
+</button>
+
+
+        <script>
+            function startAuto() {
+                fetch('/start_auto')
+                    .then(response => response.text())
+                    .then(data => console.log(data));
+            }
+            
+            function stopAuto() {
+                fetch('/stop_auto')
+                    .then(response => response.text())
+                    .then(data => console.log(data));
+            }
+        </script>
+    </body>
+</html>
+

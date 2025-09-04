@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+    <head>
+        <title>Tank It</title>
+        <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='favicon.ico') }}">
+        <link rel="stylesheet" href="{{url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <h1 >CONTROLS</h1>
+        <div class="buttons">
+            <button style='width: 100px; height: 100px; clip-path: path("M100,0 Q70,50 100,100 L0,50 Z"); transform: translateY(25px);' onmousedown="startMove('left')" ontouchstart="startMove('left')" ontouchend="stopMove()" onmouseup="stopMove()"></button>
+            <button style="width: 150px; height: 150px; border-radius: 50%;" onmousedown="fire()" onmouseup="stopFire()" ontouchstart="fire()" ontouchend="stopFire()"><b>FIRE</b></button>
+            <button style='width: 100px; height: 100px; clip-path: path("M 0,0 Q 30,50 0,100 L 100,50 Z"); transform: translateY(25px);' onmousedown="startMove('right')" onmouseup="stopMove()" ontouchstart="startMove('right')" ontouchend="stopMove()"></button>
+
+        </div>
+        <div id="tank" class="tank"></div>
+        <div class="backgrounds" style='z-index:-2;'></div>
+        <script>
+            let interval;
+            let fire_interval;
+            let angle = 0;
+            let pewSound = new Audio('/static/pew.mp3');
+            pewSound.loop = true;
+
+            function startMove(dir) {
+                if(interval) clearInterval(interval);
+                interval = setInterval(() => {
+                    console.log("Sending command:", dir);
+                    fetch(`/move?dir=${dir}`)
+                    .then(response => response.json())   // parse JSON
+                    .then(data => {
+                    angle += data.movement;           // add delta from Flask
+                    document.getElementById("tank").style.transform = `rotate(${angle}deg)`;
+                    });
+                }, 100);  // send command every 100ms
+            }
+
+			function stopMove() {
+				if (interval) {
+					clearInterval(interval);
+					interval = null; // reset
+				}
+			}
+
+            function fire(){
+                if(fire_interval) clearInterval(fire_interval);
+                fire_interval = setInterval(() => { 
+                    pewSound.play();
+                    console.log("Sending command:", "FIRING");
+                    fetch(`/fire?`);
+                }, 100);
+            }
+
+            function stopFire(){
+                pewSound.currentTime = 0;
+                pewSound.pause();
+                fetch(`/stopFire?`);
+                clearInterval(fire_interval);
+            }
+
+        </script>
+    </body>
+</html>
