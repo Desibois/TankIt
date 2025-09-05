@@ -26,18 +26,18 @@
                 interval = setInterval(() => {
                     console.log("Sending command:", dir);
                     fetch(`/move?dir=${dir}`)
-                    .then(response => response.json())   // parse JSON
+                    .then(response => response.json())   
                     .then(data => {
-                    angle += data.movement;           // add delta from Flask
+                    angle += data.movement;           
                     document.getElementById("tank").style.transform = `rotate(${angle}deg)`;
                     });
-                }, 100);  // send command every 100ms
+                }, 100);  
             }
 
 			function stopMove() {
 				if (interval) {
 					clearInterval(interval);
-					interval = null; // reset
+					interval = null; 
 				}
 			}
 
