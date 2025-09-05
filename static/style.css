@@ -3,11 +3,11 @@ body {
     background-color: #FCF8F0;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* pushes buttons left, center, right */
-    align-items: center; /* vertical centering */
-    height: 60vh; /* full height of viewport */
+    justify-content: space-between; 
+    align-items: center; 
+    height: 60vh; 
     margin: 0;
-    padding: 0 20px; /* some padding on left and right */
+    padding: 0 20px; 
 }
 .buttons {
     display: flex;
